@@ -1,5 +1,4 @@
-import curses, time
-from typing import Counter
+import curses, time, threading
 
 class Letter():
     
@@ -51,10 +50,10 @@ class Title():
         count_start, count_end = 0, 26 
         
         for i in range(self.MATRIX_WIDTH):
-            self.stdscr.addstr(i, 0, string[count_start:count_end])
+            self.stdscr.instr(i, 0, string[count_start:count_end])
             self.stdscr.refresh()
             
-            count_start += 25
+            count_start += 25           
             count_end += 25
             
     def prepare_window(self, timer : 0.05, new_matr : list):
@@ -80,14 +79,24 @@ class Title():
         
         count = 0
         __letters_obj = self.handler()
-        Letter_args = (self.create_matrix(), self.MATRIX_FILLER, self.MATRIX_WIDTH, 9 * count)
+        Letter_args = (self.create_matrix(), self.MATRIX_FILLER, self.MATRIX_HEIGHT, self.MATRIX_WIDTH)
         
         for unit in __letters_obj:
             try: 
                 if unit.NAME == "R":
-                    LetterR(Letter_args[0], Letter_args[1], Letter_args[2], Letter_args[3])
+                        
+                    if count == len(__letters_obj) - 1:
+                        LetterR(Letter_args[0], Letter_args[1], Letter_args[2], Letter_args[3], count * 10)
+                    else:
+                        thr = threading.Thread(target = LetterR, args = (Letter_args[0], Letter_args[1], Letter_args[2], Letter_args[3], count * 10), daemon = True)
+                        thr.start()
+                    
                 if unit.NAME == "A":
-                    LetterA(Letter_args[0], Letter_args[1], Letter_args[2], Letter_args[3])
+                    if count == len(__letters_obj) - 1:
+                        LetterA(Letter_args[0], Letter_args[1], Letter_args[2], Letter_args[3], count * 10)
+                    else:
+                        thr = threading.Thread(target = LetterA, args = (Letter_args[0], Letter_args[1], Letter_args[2], Letter_args[3], count * 10), daemon = True)
+                        thr.start()
                     
                 count += 1
                 
