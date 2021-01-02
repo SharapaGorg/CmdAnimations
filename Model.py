@@ -14,10 +14,7 @@ class Letter():
         
         self.NAME = self.NAME.upper()
         
-        if self.NAME in self.__letters:
-            return True
-        else:
-            return False
+        return (self.NAME in self.__letters)
         
 class Title():
     
