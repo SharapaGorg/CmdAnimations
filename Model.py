@@ -1,3 +1,4 @@
+from LettersObj import *
 import curses, time, threading
 
 class Letter():
@@ -20,13 +21,14 @@ class Letter():
         
 class Title():
     
-    def __init__(self, LEGEND, MATRIX_HEIGHT, MATRIX_WIDTH,  MATRIX_FILLER, MATRIX_SIGN):
+    def __init__(self, LEGEND, MATRIX_HEIGHT, MATRIX_WIDTH,  MATRIX_FILLER, MATRIX_SIGN, CONSECUTIVE : True):
         
         self.LEGEND = LEGEND
         self.MATRIX_HEIGHT = MATRIX_HEIGHT
         self.MATRIX_WIDTH = MATRIX_WIDTH 
         self.MATRIX_FILLER = MATRIX_FILLER
         self.MATRIX_SIGN = MATRIX_SIGN
+        self.ForQueue = CONSECUTIVE
     
     stdscr = curses.initscr()
     curses.noecho()
@@ -73,6 +75,21 @@ class Title():
                 __letters_obj.append(Letter_obj)
                 
         return __letters_obj
+          
+    def Threader(self, count, func, Letter_args):
+        __letters_obj = self.handler()
+        
+        if count == len(__letters_obj) - 1:
+            func(Letter_args[0], Letter_args[1], Letter_args[2], Letter_args[3], count * 10, True)
+            
+            if self.ForQueue:
+                time.sleep(1.5)
+            
+        if self.ForQueue:
+            func(Letter_args[0], Letter_args[1], Letter_args[2], Letter_args[3], count * 10, False)
+        else:
+            thr = threading.Thread(target = func, args = (Letter_args[0], Letter_args[1], Letter_args[2], Letter_args[3], count * 10, False), daemon = True)
+            thr.start() 
                     
     def Draw(self):
         from LettersObj import LetterR, LetterA
@@ -84,19 +101,25 @@ class Title():
         for unit in __letters_obj:
             try: 
                 if unit.NAME == "R":
+                    self.Threader(count, LetterR, Letter_args)
+            
+                if unit.NAME == "D":
+                    self.Threader(count, LetterD, Letter_args)
                         
-                    if count == len(__letters_obj) - 1:
-                        LetterR(Letter_args[0], Letter_args[1], Letter_args[2], Letter_args[3], count * 10)
-                    else:
-                        thr = threading.Thread(target = LetterR, args = (Letter_args[0], Letter_args[1], Letter_args[2], Letter_args[3], count * 10), daemon = True)
-                        thr.start()
+                if unit.NAME == "O":
+                    self.Threader(count, LetterO, Letter_args)      
+                        
+                if unit.NAME == "L":                 
+                    self.Threader(count, LetterL, Letter_args)  
                     
+                if unit.NAME == "Y":
+                    self.Threader(count, LetterY, Letter_args)
+                
                 if unit.NAME == "A":
-                    if count == len(__letters_obj) - 1:
-                        LetterA(Letter_args[0], Letter_args[1], Letter_args[2], Letter_args[3], count * 10)
-                    else:
-                        thr = threading.Thread(target = LetterA, args = (Letter_args[0], Letter_args[1], Letter_args[2], Letter_args[3], count * 10), daemon = True)
-                        thr.start()
+                    self.Threader(count, LetterA, Letter_args)
+                
+                if unit.NAME == "N":
+                    self.Threader(count, LetterN, Letter_args)
                     
                 count += 1
                 

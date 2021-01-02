@@ -17,7 +17,7 @@ def show_window(MATRIX_HEIGHT, MATRIX_WIDTH, *kwargs):
     count_start, count_end = 0, MATRIX_WIDTH + 1 
     
     for i in range(MATRIX_HEIGHT):
-        stdscr.addstr(i, 0, string[count_start:count_end]) # addition variant - insstr
+        stdscr.addstr(i, 0, string[count_start:count_end]) # addition variant - insstr - addstr
         stdscr.refresh()
         
         count_start += MATRIX_WIDTH
@@ -27,26 +27,187 @@ def prepare_window(timer, matr, MATRIX_HEIGHT, MATRIX_WIDTH):
     show_window(MATRIX_HEIGHT, MATRIX_WIDTH, matr)
     time.sleep(timer)
 
-def LetterA(matr, CHANGED_SIGN, MATRIX_HEIGHT, MATRIX_WIDTH, PADDING):
+def LetterA(matr, CHANGED_SIGN, MATRIX_HEIGHT, MATRIX_WIDTH, PADDING, QUEUE : bool):
     matr_len = len(matr)
-    timer = 0.05
+    
+    if QUEUE:
+        timer = 0.005
+    else:
+        timer = 0.05
     
     for i in range(matr_len):
         for k in range(len(matr[i])):
             
             if k <= 15:
                 matr[1 + k][PADDING + 1] = CHANGED_SIGN
+                matr[1 + k][PADDING + 9] = CHANGED_SIGN
+                
+                prepare_window(timer, matr, MATRIX_HEIGHT, MATRIX_WIDTH)
+
+            if k <= 8:
+                matr[1][PADDING + 1 + k] = CHANGED_SIGN
+                matr[8][PADDING + 1 + k] = CHANGED_SIGN
+                
+                prepare_window(timer, matr, MATRIX_HEIGHT, MATRIX_WIDTH)
+         
+        if QUEUE:        
+            time.sleep(5)
+            
+        break
+    
+def LetterD(matr, CHANGED_SIGN, MATRIX_HEIGHT, MATRIX_WIDTH, PADDING, QUEUE : bool):
+    
+    if not QUEUE:
+        timer = 0.05
+    else:
+        timer = 0.005
+    
+    for i in range(len(matr)):
+        for k in range(len(matr[i])):
+            if k <= 15:
+                matr[1 + k][PADDING + 1] = CHANGED_SIGN
                 
                 prepare_window(timer, matr, MATRIX_HEIGHT, MATRIX_WIDTH)
                 
-        time.sleep(5)
+        for k in range(len(matr[i])):
+            if k <= 4:
+                matr[1][PADDING + 1 + k] = CHANGED_SIGN
+                matr[16][PADDING + 1 + k] = CHANGED_SIGN
+                
+                prepare_window(timer, matr, MATRIX_HEIGHT, MATRIX_WIDTH)
+                
+        for k in range(len(matr[i])):
+            if k <= 3:
+                matr[2 + k][PADDING + 6 + k] = CHANGED_SIGN
+                matr[15 - k][PADDING + 6 + k] = CHANGED_SIGN
+                
+                prepare_window(timer, matr, MATRIX_HEIGHT, MATRIX_WIDTH)
+        
+        for k in range(len(matr[i])):
+            if k <= 3:
+                matr[5 + k][PADDING + 9] = CHANGED_SIGN
+                matr[11 - k][PADDING + 9] = CHANGED_SIGN
+                
+                prepare_window(timer, matr, MATRIX_HEIGHT, MATRIX_WIDTH)
+        
+        if QUEUE:    
+            time.sleep(5)
+            
+        break
+    
+def LetterO(matr, CHANGED_SIGN, MATRIX_HEIGHT, MATRIX_WIDTH, PADDING, QUEUE : bool):
+
+    if not QUEUE:
+        timer = 0.05
+    else:
+        timer = 0.005
+
+    for i in range(len(matr)):
+        for k in range(len(matr[i])):
+            if k <= 15:
+                matr[1 + k][PADDING + 1] = CHANGED_SIGN
+                matr[16 - k][PADDING + 10] = CHANGED_SIGN
+                
+                prepare_window(timer, matr, MATRIX_HEIGHT, MATRIX_WIDTH)
+        
+        for k in range(len(matr[i])):
+            if k <= 9:
+                matr[1][PADDING + 1 + k] = CHANGED_SIGN
+                matr[16][PADDING + 10 - k] = CHANGED_SIGN
+                
+                prepare_window(timer, matr, MATRIX_HEIGHT, MATRIX_WIDTH)
+         
+        if QUEUE:        
+            time.sleep(3)
+            
+        break
+    
+def LetterL(matr, CHANGED_SIGN, MATRIX_HEIGHT, MATRIX_WIDTH, PADDING, QUEUE : bool):
+   
+    if not QUEUE:
+        timer = 0.05
+    else:
+        timer = 0.005
+    
+    for i in range(len(matr)):
+        for k in range(len(matr[i])):
+            if k <= 15:
+                matr[1 + k][PADDING + 2] = CHANGED_SIGN
+                
+                prepare_window(timer, matr, MATRIX_HEIGHT, MATRIX_WIDTH)
+            
+        for k in range(len(matr[i])):
+            if k <= 9:
+                matr[16][PADDING + 2 + k] = CHANGED_SIGN
+                
+                prepare_window(timer, matr, MATRIX_HEIGHT, MATRIX_WIDTH)
+                
+        if QUEUE:        
+            time.sleep(2.5)
+            
         break
 
-def LetterR(matr, CHANGED_SIGN, MATRIX_HEIGHT, MATRIX_WIDTH, PADDING):
+def LetterY(matr, CHANGED_SIGN, MATRIX_HEIGHT, MATRIX_WIDTH, PADDING, QUEUE : bool):
+    
+    if not QUEUE:
+        timer = 0.05
+    else:
+        timer = 0.005
+    
+    for i in range(len(matr)):
+        for k in range(len(matr[i])):
+            if k <= 15:
+                matr[16 - k][PADDING + 5] = CHANGED_SIGN
+                
+                prepare_window(timer, matr, MATRIX_HEIGHT, MATRIX_WIDTH)
+                
+        for k in range(len(matr[i])):
+            if k <= 4:
+                matr[5 - k][PADDING + 5 + k] = CHANGED_SIGN
+                matr[5 - k][PADDING + 5 -k] = CHANGED_SIGN
+                
+                prepare_window(timer, matr, MATRIX_HEIGHT, MATRIX_WIDTH)
+                
+        if QUEUE:
+            time.sleep(4)
+
+        break
+    
+def LetterN(matr, CHANGED_SIGN, MATRIX_HEIGHT, MATRIX_WIDTH, PADDING, QUEUE : bool):
+    
+    if not QUEUE:
+        timer = 0.05
+    else:
+        timer = 0.005
+    
+    for i in range(len(matr)):
+        for k in range(len(matr[i])):
+            if k <= 15:
+                matr[1 + k][PADDING + 1] = CHANGED_SIGN
+                matr[16 - k][PADDING + 9] = CHANGED_SIGN
+                
+                prepare_window(timer, matr, MATRIX_HEIGHT, MATRIX_WIDTH)
+        
+        for k in range(len(matr[i])):
+            if k <= 7:
+                matr[4 + k][PADDING + 1 + k] = CHANGED_SIGN
+                
+                prepare_window(timer, matr, MATRIX_HEIGHT, MATRIX_WIDTH)
+        
+        if QUEUE:
+            time.sleep(3)
+            
+        break
+
+def LetterR(matr, CHANGED_SIGN, MATRIX_HEIGHT, MATRIX_WIDTH, PADDING, QUEUE : bool):
     matr_len = len(matr)
     break_index1, break_index2 = 0, 0
     break_ = False
-    timer = 0.05
+    
+    if not QUEUE:
+        timer = 0.05
+    else:
+        timer = 0.005
     
     for i in range(int(matr_len // 1.37)):            
         
