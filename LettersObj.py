@@ -30,7 +30,7 @@ class LetterSwitcher():
         count_start, count_end = 0, self.MATRIX_WIDTH + 1 
         
         for i in range(self.MATRIX_HEIGHT):
-            self.stdscr.addstr(i, 0, string[count_start:count_end]) # addition variant - insstr - addstr
+            self.stdscr.addstr(i, 0, string[count_start:count_end]) # additional variant - insstr - addstr
             self.stdscr.refresh()
             
             count_start += self.MATRIX_WIDTH
