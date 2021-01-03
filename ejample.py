@@ -7,5 +7,5 @@ CHANGED_SIGN = "#"
 CONSECUTIVE = True
 
 Radolyn = Title("radolyn", HEIGHT, WIDTH, CHANGED_SIGN, DEFAULT_SIGN, CONSECUTIVE)
-
+   
 Radolyn.Draw()
